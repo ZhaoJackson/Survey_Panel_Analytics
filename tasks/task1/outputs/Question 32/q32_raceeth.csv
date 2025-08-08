@@ -1,0 +1,4 @@
+question,question_label,demographic,response,White,Black,Hispanic,Other
+q32,Would you participate in a survey if you received the survey invitation in a text message?,raceeth,Yes,52%,66%,60%,47%
+q32,Would you participate in a survey if you received the survey invitation in a text message?,raceeth,No,9%,4%,13%,10%
+q32,Would you participate in a survey if you received the survey invitation in a text message?,raceeth,Maybe,38%,29%,26%,44%

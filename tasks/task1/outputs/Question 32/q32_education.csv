@@ -1,0 +1,4 @@
+question,question_label,demographic,response,HS or less,Some college/2-yr degree,4-yr/post-graduate degree
+q32,Would you participate in a survey if you received the survey invitation in a text message?,education,Yes,60%,51%,53%
+q32,Would you participate in a survey if you received the survey invitation in a text message?,education,No,9%,10%,9%
+q32,Would you participate in a survey if you received the survey invitation in a text message?,education,Maybe,32%,39%,38%

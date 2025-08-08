@@ -1,0 +1,6 @@
+question,question_label,demographic,response,18-29,30-49,50-64,65+
+q31,How likely are you to participate in a survey conducted via phone call?,age_group4,Very likely,18%,22%,19%,20%
+q31,How likely are you to participate in a survey conducted via phone call?,age_group4,Likely,21%,19%,16%,14%
+q31,How likely are you to participate in a survey conducted via phone call?,age_group4,Somewhat likely,24%,27%,25%,21%
+q31,How likely are you to participate in a survey conducted via phone call?,age_group4,Not likely,26%,21%,31%,33%
+q31,How likely are you to participate in a survey conducted via phone call?,age_group4,I would never participate in a phone survey,10%,10%,8%,12%

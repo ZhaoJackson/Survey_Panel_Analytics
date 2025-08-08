@@ -1,0 +1,6 @@
+question,question_label,demographic,response,White,Black,Hispanic,Other
+q31,How likely are you to participate in a survey conducted via phone call?,raceeth,Very likely,20%,34%,14%,15%
+q31,How likely are you to participate in a survey conducted via phone call?,raceeth,Likely,16%,13%,27%,16%
+q31,How likely are you to participate in a survey conducted via phone call?,raceeth,Somewhat likely,24%,29%,27%,19%
+q31,How likely are you to participate in a survey conducted via phone call?,raceeth,Not likely,30%,19%,22%,32%
+q31,How likely are you to participate in a survey conducted via phone call?,raceeth,I would never participate in a phone survey,9%,5%,11%,18%

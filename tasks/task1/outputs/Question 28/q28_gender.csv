@@ -1,0 +1,6 @@
+question,question_label,demographic,response,Male,Female,Other
+q28,"In general, how accurate do you think public opinion surveys are?",gender,Extremely accurate,8%,6%,NA
+q28,"In general, how accurate do you think public opinion surveys are?",gender,Very accurate,28%,28%,NA
+q28,"In general, how accurate do you think public opinion surveys are?",gender,Somewhat accurate,54%,60%,100%
+q28,"In general, how accurate do you think public opinion surveys are?",gender,Not very accurate,10%,6%,NA
+q28,"In general, how accurate do you think public opinion surveys are?",gender,Not at all accurate,1%,1%,NA

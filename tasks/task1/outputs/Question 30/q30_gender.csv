@@ -1,0 +1,6 @@
+question,question_label,demographic,response,Male,Female,Other
+q30,How important do you think surveys are for society?,gender,Extremely important,16%,14%,NA
+q30,How important do you think surveys are for society?,gender,Very important,33%,34%,35%
+q30,How important do you think surveys are for society?,gender,Somewhat important,38%,43%,65%
+q30,How important do you think surveys are for society?,gender,Not very important,10%,7%,NA
+q30,How important do you think surveys are for society?,gender,Not at all important,3%,2%,NA

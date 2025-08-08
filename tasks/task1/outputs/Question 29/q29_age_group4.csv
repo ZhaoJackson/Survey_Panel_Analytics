@@ -1,0 +1,6 @@
+question,question_label,demographic,response,18-29,30-49,50-64,65+
+q29,How trustworthy do you think the results of public opinion surveys are?,age_group4,Extremely trustworthy,15%,10%,4%,2%
+q29,How trustworthy do you think the results of public opinion surveys are?,age_group4,Very trustworthy,22%,28%,25%,21%
+q29,How trustworthy do you think the results of public opinion surveys are?,age_group4,Somewhat trustworthy,57%,50%,63%,68%
+q29,How trustworthy do you think the results of public opinion surveys are?,age_group4,Not very trustworthy,6%,9%,6%,9%
+q29,How trustworthy do you think the results of public opinion surveys are?,age_group4,Not at all trustworthy,1%,3%,3%,1%

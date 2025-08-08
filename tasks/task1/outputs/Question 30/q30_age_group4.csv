@@ -1,0 +1,6 @@
+question,question_label,demographic,response,18-29,30-49,50-64,65+
+q30,How important do you think surveys are for society?,age_group4,Extremely important,23%,19%,10%,6%
+q30,How important do you think surveys are for society?,age_group4,Very important,40%,34%,34%,27%
+q30,How important do you think surveys are for society?,age_group4,Somewhat important,31%,36%,43%,54%
+q30,How important do you think surveys are for society?,age_group4,Not very important,5%,7%,11%,11%
+q30,How important do you think surveys are for society?,age_group4,Not at all important,NA,3%,2%,2%

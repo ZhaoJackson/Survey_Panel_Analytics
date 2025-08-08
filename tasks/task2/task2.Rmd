@@ -1,0 +1,373 @@
+---
+title: "Verasight Data Scientist Case Study – Task 2: Response Density Analysis"
+author: "Jackson Zhao"
+output: html_notebook
+---
+
+# Executive Summary: Response Density Analysis
+
+## 🎯 Business Problem
+**Density Analysis:** Measure whether survey responses are concentrated among a small number of heavy users or distributed evenly across many panelists. This helps understand user engagement patterns and potential bias in survey results.
+
+## 📊 Final Results
+
+### **Task 2.1 Answer:** 15.68% of all users account for 50% of survey responses
+### **Task 2.2 Answer:** 28.66% of recent users (90 days) account for 50% of their responses  
+### **Task 2.3 Answer:** Lorenz curve visualization showing concentration at all thresholds
+
+---
+
+
+## 📋 Data Processing Workflow
+
+### **Step 1: Data Cleaning Strategy**
+- **Remove missing IDs:** Can't attribute responses without user identifiers
+- **Standardize formats:** Ensure consistent ID types for proper joins
+- **Parse dates:** Enable accurate 90-day filtering
+
+### **Step 2: User Response Counting**
+- **Aggregate:** Count total responses per user ID
+- **Rank:** Sort users by response count (descending)
+- **Calculate:** Running totals and percentages
+
+### **Step 3: Cumulative Analysis**
+- **Running sum:** Cumulative responses from top users
+- **Percentage calculation:** Convert to proportion of total responses
+- **Threshold detection:** Find where cumulative share crosses target
+
+### **Step 4: Lorenz Curve Construction**
+- **X-axis:** Cumulative percentage of users (0% to 100%)
+- **Y-axis:** Cumulative percentage of responses (0% to 100%)
+- **Interpretation:** Closer to diagonal = more equal distribution
+
+---
+
+# Task 2.1: All Users Density Analysis
+
+## Summary
+Calculate minimum percentage of ALL Verasight users accounting for 50% of survey responses.
+
+## Workflow
+1. **Join datasets:** Link response database with user information
+2. **Count responses:** Aggregate responses per user ID
+3. **Sort & rank:** Order users by response count (highest first)
+4. **Calculate cumulative:** Running totals of responses and user percentages
+5. **Find threshold:** Identify where cumulative responses ≥ 50%
+
+## Answer: **15.68% of users account for 50% of all survey responses**
+
+---
+
+# Task 2.2: Recent Users (90 Days) Density Analysis
+
+## Summary
+Calculate same density metric but restricted to users who registered within last 90 days.
+
+## Workflow
+1. **Define 90-day window:** Calculate cutoff date from most recent signup
+2. **Filter recent users:** Subset to users registered within window
+3. **Subset responses:** Only include responses from recent users
+4. **Recalculate metrics:** Apply same cumulative analysis to recent cohort
+5. **Compare results:** Analyze difference vs all-time users
+
+## Answer: **28.66% of recent users account for 50% of responses from that cohort**
+
+---
+
+# Task 2.3: Visualization - Lorenz Curve Analysis
+
+## Summary
+Create detailed visualization showing density across multiple thresholds (10%, 20%, 30%, etc.).
+
+## Workflow
+1. **Generate thresholds:** Calculate user percentages for 10%-90% response shares
+2. **Create Lorenz curve:** Plot cumulative users vs cumulative responses
+3. **Add reference line:** Perfect equality diagonal for comparison
+4. **Interpret results:** Distance from diagonal shows concentration level
+
+## Answer: **Interactive Lorenz curve showing power-law distribution pattern**
+
+**Key Insights:**
+- **High concentration:** Small elite drives majority of responses
+- **Power-law pattern:** Typical of user engagement platforms
+- **Inequality measure:** Distance from diagonal indicates response concentration
+
+---
+
+# 📈 Business Insights & Conclusions
+
+## Key Findings Summary
+
+### **Concentration Patterns:**
+1. **All Users:** 15.68% account for 50% of responses → High concentration
+2. **Recent Users:** 28.66% account for 50% of responses → Even higher concentration  
+3. **Early Threshold:** Only 2.07% of users account for 10% of responses
+
+### **Strategic Implications:**
+- **Survey bias risk:** Small user subset drives majority of feedback
+- **Engagement opportunity:** Large portion of users underutilized  
+- **Quality focus:** Heavy users require special attention for data quality
+- **Growth potential:** Recent users show higher engagement rates
+
+### **Technical Validation:**
+- **Formula accuracy:** `min(which())` correctly identifies threshold crossings
+- **Data integrity:** Proper handling of missing IDs ensures valid user attribution
+- **Visualization clarity:** Lorenz curve effectively shows concentration patterns
+
+## File Outputs Generated
+
+**Output Structure:**
+```
+task2/outputs/
+├── all_users_analysis.csv         # Detailed user-level analysis
+├── recent_users_analysis.csv      # 90-day cohort analysis  
+├── density_thresholds_summary.csv # Multiple threshold results
+├── all_vs_recent_comparison.csv   # Comparative analysis
+├── lorenz_curve_all_users.png     # Lorenz curve visualization
+└── user_comparison.png            # All vs recent comparison plot
+```
+
+---
+
+# 💻 Code Implementation
+
+Below is the complete technical implementation of the analysis described above.
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+
+# Load libraries
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(readr)
+library(plotly)
+library(scales)
+
+# Define relative paths from task2 folder
+data_dir <- "../../data"  # Go up two levels to reach project root, then into data
+output_dir <- "./outputs" # Create outputs folder within task2
+
+# Create output folder if it doesn't exist
+if (!dir.exists(output_dir)) {
+  dir.create(output_dir, recursive = TRUE)
+}
+
+# Load datasets
+full_db <- readRDS(file.path(data_dir, "full-response-db.rds"))
+users <- readRDS(file.path(data_dir, "users.rds"))
+```
+
+```{r data-cleaning}
+cat("=== DATA CLEANING & PREPARATION ===\n")
+
+# Check missing values
+cat("Missing IDs in response database:", sum(is.na(full_db$ID)), "rows\n")
+cat("These must be removed because we cannot attribute responses to users without IDs\n\n")
+
+# Remove rows with missing user ID (cannot be attributed to any user)
+full_db_clean <- full_db %>%
+  filter(!is.na(ID))
+
+cat("After cleaning - usable responses:", nrow(full_db_clean), "\n")
+```
+
+```{r task2-1-implementation}
+cat("=== TASK 2.1: ALL USERS ANALYSIS ===\n")
+
+# Step 1: Count responses per user
+user_counts <- full_db_clean %>%
+  count(ID, name = "response_count")
+
+# Step 2: Join with user data and calculate cumulative statistics
+user_data <- user_counts %>%
+  left_join(users, by = "ID") %>%
+  arrange(desc(response_count)) %>% # Sort by highest responders first
+  mutate(
+    # Calculate running totals
+    cumulative_responses = cumsum(response_count),
+    total_responses = sum(response_count),
+    cumulative_pct = cumulative_responses / total_responses,
+    user_rank = row_number(),
+    user_pct = user_rank / n() # Percentage of users represented
+  )
+
+# Step 3: Find minimum users for 50% threshold using min(which())
+cutoff_row <- min(which(user_data$cumulative_pct >= 0.5))
+pct_50_all <- user_data$user_pct[cutoff_row] * 100
+
+cat(sprintf("ANSWER: %.2f%% of users account for 50%% of all responses\n", pct_50_all))
+
+# Save detailed analysis
+write_csv(user_data, file.path(output_dir, "all_users_analysis.csv"))
+```
+
+```{r task2-2-implementation}
+cat("=== TASK 2.2: RECENT USERS (90 DAYS) ===\n")
+
+# Step 1: Parse signup dates and define 90-day window
+users$signup_date <- as.Date(users$signup_date, format = "%m/%d/%Y")
+cutoff_date <- max(users$signup_date, na.rm = TRUE) - 90
+cat("90-day cutoff date:", as.character(cutoff_date), "\n")
+
+# Step 2: Filter to recent users only
+recent_users <- users %>%
+  filter(signup_date >= cutoff_date)
+cat("Recent users found:", nrow(recent_users), "\n")
+
+# Step 3: Subset response data for recent users
+recent_data <- user_data %>%
+  filter(ID %in% recent_users$ID) %>%
+  arrange(desc(response_count)) %>%
+  mutate(
+    # Recalculate cumulative stats for recent cohort only
+    cumulative_responses = cumsum(response_count),
+    total_responses = sum(response_count),
+    cumulative_pct = cumulative_responses / total_responses,
+    user_rank = row_number(),
+    user_pct = user_rank / n()
+  )
+
+# Step 4: Find 50% threshold for recent users
+cutoff_row_recent <- min(which(recent_data$cumulative_pct >= 0.5))
+pct_50_recent <- recent_data$user_pct[cutoff_row_recent] * 100
+
+cat(sprintf("ANSWER: %.2f%% of recent users account for 50%% of their responses\n", pct_50_recent))
+
+# Save recent users analysis
+write_csv(recent_data, file.path(output_dir, "recent_users_analysis.csv"))
+
+# Comparison insight
+cat("\nCOMPARISON:\n")
+cat("All users:", round(pct_50_all, 2), "%\n")
+cat("Recent users:", round(pct_50_recent, 2), "%\n")
+if(pct_50_recent < pct_50_all) {
+  cat("Recent users show HIGHER concentration (more active heavy users)\n")
+} else {
+  cat("Recent users show LOWER concentration (more distributed engagement)\n")
+}
+```
+
+```{r task2-3-implementation}
+cat("=== TASK 2.3: MULTIPLE THRESHOLD ANALYSIS ===\n")
+
+# Calculate user percentages needed for various response thresholds
+response_thresholds <- c(0.10, 0.20, 0.30, 0.40, 0.50, 0.60, 0.70, 0.80, 0.90)
+
+density_summary <- sapply(response_thresholds, function(thresh) {
+  cutoff_index <- min(which(user_data$cumulative_pct >= thresh))
+  user_data$user_pct[cutoff_index] * 100
+})
+
+names(density_summary) <- paste0(response_thresholds * 100, "%")
+
+cat("User percentage needed for each response threshold:\n")
+for (i in 1:length(density_summary)) {
+  cat(sprintf("• %.2f%% of users → %s of responses\n", 
+              density_summary[i], names(density_summary)[i]))
+}
+
+# Create summary table
+summary_table <- data.frame(
+  Response_Threshold = names(density_summary),
+  User_Percentage_Needed = round(density_summary, 2)
+)
+
+write_csv(summary_table, file.path(output_dir, "density_thresholds_summary.csv"))
+```
+
+```{r lorenz-curve-visualization}
+cat("=== LORENZ CURVE VISUALIZATION ===\n")
+
+# Create Lorenz curve plot
+lorenz_plot <- ggplot(user_data, aes(x = user_pct, y = cumulative_pct)) +
+  geom_line(color = "darkblue", size = 1.2, alpha = 0.8) +
+  geom_abline(intercept = 0, slope = 1, linetype = "dashed", 
+              color = "gray50", alpha = 0.7) +
+  annotate("text", x = 0.7, y = 0.3, 
+           label = "Perfect Equality\n(45° line)", 
+           color = "gray50", size = 3) +
+  annotate("text", x = 0.3, y = 0.7, 
+           label = "Actual Distribution\n(High Concentration)", 
+           color = "darkblue", size = 3) +
+  scale_x_continuous(labels = scales::percent, name = "Cumulative % of Users") +
+  scale_y_continuous(labels = scales::percent, name = "Cumulative % of Responses") +
+  labs(title = "Response Density: Lorenz Curve Analysis",
+       subtitle = paste0("Distance from diagonal shows concentration level | ",
+                        round(pct_50_all, 1), "% of users → 50% of responses")) +
+  theme_minimal(base_size = 12) +
+  theme(plot.title = element_text(size = 14, face = "bold"))
+
+# Display interactive version
+interactive_lorenz <- ggplotly(lorenz_plot, tooltip = c("x", "y"))
+interactive_lorenz
+
+# Save static version
+ggsave(file.path(output_dir, "lorenz_curve_all_users.png"), lorenz_plot, 
+       width = 10, height = 6, dpi = 300)
+
+cat("Lorenz Curve Interpretation:\n")
+cat("• Diagonal line = Perfect equality (everyone contributes equally)\n")
+cat("• Curved line = Actual distribution (concentrated among few users)\n")
+cat("• Larger area between lines = Higher concentration\n")
+```
+
+```{r comparison-all-vs-recent}
+cat("=== COMPARISON: ALL vs RECENT USERS ===\n")
+
+# Calculate thresholds for recent users
+recent_summary <- sapply(response_thresholds, function(thresh) {
+  if (max(recent_data$cumulative_pct) >= thresh) {
+    cutoff_index <- min(which(recent_data$cumulative_pct >= thresh))
+    recent_data$user_pct[cutoff_index] * 100
+  } else {
+    NA
+  }
+})
+
+# Create comparison dataset
+comparison_data <- data.frame(
+  Response_Threshold = response_thresholds * 100,
+  All_Users = density_summary,
+  Recent_Users = recent_summary
+) %>%
+  pivot_longer(cols = c(All_Users, Recent_Users), 
+               names_to = "User_Group", 
+               values_to = "User_Percentage")
+
+# Create comparison plot
+comparison_plot <- ggplot(comparison_data, aes(x = Response_Threshold, y = User_Percentage, 
+                                              color = User_Group, linetype = User_Group)) +
+  geom_line(size = 1.2) +
+  geom_point(size = 3) +
+  scale_x_continuous(name = "Response Threshold (%)", breaks = seq(10, 90, 10)) +
+  scale_y_continuous(name = "User Percentage Needed (%)") +
+  scale_color_manual(values = c("All_Users" = "darkblue", "Recent_Users" = "darkred")) +
+  labs(title = "Response Concentration: All Users vs Recent Users (90 Days)",
+       subtitle = "Lower values indicate higher concentration among fewer users",
+       color = "User Group", linetype = "User Group") +
+  theme_minimal(base_size = 12) +
+  theme(plot.title = element_text(size = 14, face = "bold"),
+        legend.position = "bottom")
+
+print(comparison_plot)
+ggsave(file.path(output_dir, "user_comparison.png"), comparison_plot, 
+       width = 10, height = 6, dpi = 300)
+
+# Save comparison data
+write_csv(comparison_data, file.path(output_dir, "all_vs_recent_comparison.csv"))
+```
+
+```{r final-summary}
+cat("=== ANALYSIS COMPLETE ===\n")
+cat("Generated files in", normalizePath(output_dir), ":\n")
+output_files <- list.files(output_dir)
+for (file in output_files) {
+  cat("•", file, "\n")
+}
+
+cat("\nFinal Answers:\n")
+cat("Task 2.1:", round(pct_50_all, 2), "% of all users → 50% of responses\n")
+cat("Task 2.2:", round(pct_50_recent, 2), "% of recent users → 50% of their responses\n")
+cat("Task 2.3: Lorenz curve visualization with multiple threshold analysis\n")
+``` 

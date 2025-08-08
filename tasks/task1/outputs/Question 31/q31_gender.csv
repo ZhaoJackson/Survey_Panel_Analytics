@@ -1,0 +1,6 @@
+question,question_label,demographic,response,Male,Female,Other
+q31,How likely are you to participate in a survey conducted via phone call?,gender,Very likely,21%,20%,NA
+q31,How likely are you to participate in a survey conducted via phone call?,gender,Likely,19%,17%,18%
+q31,How likely are you to participate in a survey conducted via phone call?,gender,Somewhat likely,25%,25%,NA
+q31,How likely are you to participate in a survey conducted via phone call?,gender,Not likely,25%,30%,47%
+q31,How likely are you to participate in a survey conducted via phone call?,gender,I would never participate in a phone survey,11%,8%,35%

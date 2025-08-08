@@ -1,0 +1,10 @@
+question,question_label,demographic,response,Male,Female,Other
+q35,"Social media users have the option to poll (ask a survey question to) their audience using platforms like Twitter, Facebook, Instagram, and TikTok.
+
+Do you believe in social media polls?",gender,Yes,37%,40%,NA
+q35,"Social media users have the option to poll (ask a survey question to) their audience using platforms like Twitter, Facebook, Instagram, and TikTok.
+
+Do you believe in social media polls?",gender,No,27%,15%,47%
+q35,"Social media users have the option to poll (ask a survey question to) their audience using platforms like Twitter, Facebook, Instagram, and TikTok.
+
+Do you believe in social media polls?",gender,It depends on who is asking,36%,45%,53%

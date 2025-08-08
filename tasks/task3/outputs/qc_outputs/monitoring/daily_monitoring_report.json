@@ -1,0 +1,23 @@
+{
+  "report_timestamp": "2025-07-17 14:23:37.192103",
+  "report_date": "2025-07-17",
+  "panel_alerts": [],
+  "high_risk_respondents_count": 5237,
+  "projects_needing_review": 0,
+  "panel_kpis": [
+    {
+      "total_responses": 65101,
+      "unique_respondents": 65101,
+      "unique_projects": 110,
+      "overall_attention_fail_rate": 0.0761,
+      "overall_speeder_rate": 0.0851,
+      "overall_straight_line_rate": 0.0808,
+      "avg_responses_per_respondent": 1,
+      "panel_quality_score": 0.9198,
+      "analysis_date": "2025-07-17",
+      "high_risk_respondents": 5237,
+      "poor_quality_projects": 0
+    }
+  ],
+  "run_id": "20250717_142337_7578"
+}

@@ -1,0 +1,4 @@
+question,question_label,demographic,response,18-29,30-49,50-64,65+
+q32,Would you participate in a survey if you received the survey invitation in a text message?,age_group4,Yes,60%,60%,55%,43%
+q32,Would you participate in a survey if you received the survey invitation in a text message?,age_group4,No,8%,10%,8%,10%
+q32,Would you participate in a survey if you received the survey invitation in a text message?,age_group4,Maybe,32%,29%,37%,46%

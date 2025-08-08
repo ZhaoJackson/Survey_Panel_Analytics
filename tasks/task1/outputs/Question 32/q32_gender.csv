@@ -1,0 +1,4 @@
+question,question_label,demographic,response,Male,Female,Other
+q32,Would you participate in a survey if you received the survey invitation in a text message?,gender,Yes,53%,57%,53%
+q32,Would you participate in a survey if you received the survey invitation in a text message?,gender,No,10%,9%,NA
+q32,Would you participate in a survey if you received the survey invitation in a text message?,gender,Maybe,37%,34%,47%

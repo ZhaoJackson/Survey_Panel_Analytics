@@ -1,0 +1,6 @@
+question,question_label,demographic,response,Male,Female,Other
+q29,How trustworthy do you think the results of public opinion surveys are?,gender,Extremely trustworthy,9%,7%,NA
+q29,How trustworthy do you think the results of public opinion surveys are?,gender,Very trustworthy,26%,23%,35%
+q29,How trustworthy do you think the results of public opinion surveys are?,gender,Somewhat trustworthy,54%,63%,65%
+q29,How trustworthy do you think the results of public opinion surveys are?,gender,Not very trustworthy,9%,6%,NA
+q29,How trustworthy do you think the results of public opinion surveys are?,gender,Not at all trustworthy,2%,2%,NA

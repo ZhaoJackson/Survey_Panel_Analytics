@@ -1,0 +1,6 @@
+question,question_label,demographic,response,18-29,30-49,50-64,65+
+q28,"In general, how accurate do you think public opinion surveys are?",age_group4,Extremely accurate,11%,11%,4%,2%
+q28,"In general, how accurate do you think public opinion surveys are?",age_group4,Very accurate,29%,34%,23%,22%
+q28,"In general, how accurate do you think public opinion surveys are?",age_group4,Somewhat accurate,54%,48%,65%,65%
+q28,"In general, how accurate do you think public opinion surveys are?",age_group4,Not very accurate,7%,6%,8%,11%
+q28,"In general, how accurate do you think public opinion surveys are?",age_group4,Not at all accurate,NA,1%,1%,1%

@@ -1,0 +1,6 @@
+question,question_label,demographic,response,White,Black,Hispanic,Other
+q29,How trustworthy do you think the results of public opinion surveys are?,raceeth,Extremely trustworthy,6%,13%,10%,8%
+q29,How trustworthy do you think the results of public opinion surveys are?,raceeth,Very trustworthy,25%,22%,27%,21%
+q29,How trustworthy do you think the results of public opinion surveys are?,raceeth,Somewhat trustworthy,60%,59%,53%,57%
+q29,How trustworthy do you think the results of public opinion surveys are?,raceeth,Not very trustworthy,7%,5%,7%,14%
+q29,How trustworthy do you think the results of public opinion surveys are?,raceeth,Not at all trustworthy,2%,1%,2%,1%
