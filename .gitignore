@@ -1,4 +1,39 @@
+# R Environment Files
 .Rproj.user
 .Rhistory
 .RData
 .Ruserdata
+
+# Sensitive Survey Data Files
+data/2024-054_responses.rds
+data/2024-054_reference.rds
+data/full-response-db.rds
+
+# System Files
+.DS_Store
+Thumbs.db
+
+# IDE Files
+.vscode/
+.idea/
+
+# Deployment Files (contains tokens)
+rsconnect/
+
+# Log Files
+*.log
+tasks/task3/logs/
+
+# Temporary Files
+*.tmp
+*.temp
+*~
+
+# Output Files (can be regenerated)
+tasks/*/outputs/
+*.html
+*.nb.html
+
+# Large Data Files (>100MB)
+*.csv.gz
+*.rds.gz

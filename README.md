@@ -18,8 +18,8 @@ No installation required - explore all analyses interactively in your browser.
 ### Run Locally (2 minutes)
 ```r
 # Clone and navigate to project
-git clone https://github.com/YOUR_USERNAME/ds_case_study_jackson_verasight.git
-cd ds_case_study_jackson_verasight
+git clone https://github.com/ZhaoJackson/survey-panel-analytics.git
+cd survey-panel-analytics
 
 # Install required packages
 install.packages(c("shiny", "shinydashboard", "dplyr", "ggplot2", "plotly", 
@@ -69,7 +69,7 @@ shiny::runApp("app.R")
 ## 📁 Project Structure
 
 ```
-ds_case_study_jackson_verasight/
+survey-panel-analytics/
 ├── 🚀 app.R                      # Main interactive dashboard
 ├── 📚 manual.Rmd                 # Complete technical guide
 ├── 📊 data/                      # Survey datasets
